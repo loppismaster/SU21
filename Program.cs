@@ -3,126 +3,115 @@ using System.Threading;
 
 
 
-namespace Selection
+namespace Morse_Code_Converter
 {
 
-
+    
 
     class Program
     {
-       
+
 
 
         static void Main(string[] args)
         {
-            
-            string Alphabet = "abcdefghijklmnopqrstuvwxyz";
-            int[] MorseAlphabet = new int[] { 12, 2111, 2121, 211, 1, 1121, 221, 1111, 11, 1222, 212, 1211, 22, 21, 222,
-                1221, 2212, 121, 111, 2, 112, 1112, 122, 2122, 2211}; //1=short 2=long the alphabet to morse
-            int[] MorseNumbers = new int[]{ 22222, 12222, 11222, 11122, 11112, 11111, 21111, 22111, 22211, 22221,  }; //1=short 2=long 0-9 in morse
-            Console.WriteLine("write something to be translated to morse code! ");
-            String usrInput = Console.ReadLine();
-            int NumberInAlphabet = 0;
-            
-            int total = 0;
-            string concatenatedTotal = "";
-            int morseNumber;
-            string morseString;
-            string fullMorse = "";
-            int upperCaseLetter;
-            int parseResult;
-            Console.WriteLine(Alphabet);
-           
-            foreach (char c in usrInput)
+            bool running = true;
+            bool encoding = false;
+            bool decoding = false;
+
+
+            Console.WriteLine("Do you want to decode or encone?");
+            Thread.Sleep(2000);
+            string usrInput = Console.ReadLine();
+
+            switch (usrInput)
             {
-                if (int.TryParse(c.ToString(), out parseResult))
-                {
-                    char[] charArr = c.ToString().ToCharArray();
-                    morseNumber = MorseNumbers[int.Parse(charArr[0].ToString())];
+                case "decode":
+                    decoding = true;
+                    break;
+                case "encode":
+                    encoding = true;
+                    break;
+                default:
+                    break;
+            }
 
-                }
-                else if (char.IsLower(c)) {
-                    NumberInAlphabet = Alphabet.IndexOf(c) + 1;
-                    Console.WriteLine(c);
-                    morseNumber = MorseAlphabet[NumberInAlphabet - 1];
-                }
-                else if (c.ToString() == " ")
-                {
-                    fullMorse += "\u2000";
-                    continue;
-                }
-                else
-                {
-                    char[] lowerCase = c.ToString().ToLower().ToCharArray();
-                    NumberInAlphabet = Alphabet.IndexOf(lowerCase[0])+1;
-                    morseNumber = MorseAlphabet[NumberInAlphabet - 1];
+            while (running)
+            {
 
-                }
-                Console.WriteLine("\n" + c + " Number In Alphabet: " + NumberInAlphabet);
-               
-                
-                
-                morseString = morseNumber.ToString();
-                
-                foreach(char m in morseString)
-                {
-                    if (m == '1')
-                    {
-                        Console.Beep(2000, 80);
-                       
-                        Console.WriteLine(".");
-                        fullMorse += ".";
-                        Thread.Sleep(100);
-
-                    }
-                    else if (m == '2')
-                    {
-                        Console.Beep(2000, 240);
-                       
-                        Console.WriteLine("-");
-                        fullMorse += "-";
-                        Thread.Sleep(260);
-                    }
-                }
-                fullMorse += "\u2009";
-
-                Thread.Sleep(200);
               
-            }
 
-          
-            Console.WriteLine(" Full Morse Code " + fullMorse);
-           
-
-           Console.WriteLine("did you like this program? 1) yes 2)no");
-            string usrIn = Console.ReadLine();
-            int intIn = 0;
-            if (usrIn == "yes") intIn = 1;
-            if (usrIn == "no") intIn = 2;
-
-            switch(intIn)
-            {
-                case 1:
-                    Console.WriteLine("thank you, atleast someone can apriecate someones work!");
-                    break;
-                case 2:
-                    Console.WriteLine("Go eat a male prostate ");
-                    Console.WriteLine("activating bomb");
-                    Thread.Sleep(200);
-                    while(true)
+                while (decoding)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Enter morse code to be decoded");
+                    string usrIn = Console.ReadLine();
+                    Decoder decoder = new Decoder();
+                    Console.WriteLine(decoder.decode(usrIn));
+                    Console.WriteLine("Want to do another one?");
+                    usrIn = Console.ReadLine();
+                    switch(usrIn)
                     {
-                        Console.Beep(3000, 100);
-                        Thread.Sleep(110);
+                        case "yes":
+                            decoding = true;
+                            break;
+                        case "no":
+                            
+                            decoding = false;
+                            Console.WriteLine("Do you want to encode?");
+                            usrIn = Console.ReadLine();
+                            if(usrIn == "yes")
+                            {
+                                encoding = true;
+                            }
+                            else
+                            {
+                                System.Environment.Exit(0);
+                            }
+                            break;
+
                     }
-                    break;
-                defualt:
-                    break;
+
+
+                }
+
+                while(encoding)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Enter text to be encoded");
+                    string usrIn = Console.ReadLine();
+                    Encoder encoder = new Encoder();
+                    Console.WriteLine(encoder.Encode(usrIn));
+                    Console.WriteLine("Want to do another one?");
+                    usrIn = Console.ReadLine();
+                    switch (usrIn)
+                    {
+                        case "yes":
+                            encoding = true;
+                            break;
+                        case "no":
+
+                            encoding = false;
+                            Console.WriteLine("Do you want to decode?");
+                            usrIn = Console.ReadLine();
+                            if (usrIn == "yes")
+                            {
+                                decoding = true;
+                            }
+                            else
+                            {
+                                System.Environment.Exit(0);
+                            }
+                            break;
+
+                    }
+
+
+                }
             }
 
-            
+            }
 
-
-        
         }
     }
-}
+
