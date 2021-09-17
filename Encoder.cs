@@ -11,6 +11,8 @@ using System.Threading;
     int[] MorseNumbers = new int[] { 22222, 12222, 11222, 11122, 11112, 11111, 21111, 22111, 22211, 22221 }; //1=short 2=long 0-9 in morse
     const char Aprostophe = (char)39;
 
+
+
     public Encoder()
         {
 

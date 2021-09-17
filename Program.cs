@@ -3,24 +3,24 @@ using System.Threading;
 
 
 
-namespace Morse_Code_Converter
-{
-
     
 
     class Program
     {
 
-
-
-        static void Main(string[] args)
+    static void Main(string[] args)
         {
+
+            MorseUtil util = new MorseUtil();
+        
             bool running = true;
             bool encoding = false;
             bool decoding = false;
+         
 
+            
 
-            Console.WriteLine("Do you want to decode or encone?");
+            Console.WriteLine("Do you want to decode or encode?");
             Thread.Sleep(2000);
             string usrInput = Console.ReadLine();
 
@@ -81,13 +81,15 @@ namespace Morse_Code_Converter
                     Console.WriteLine("Enter text to be encoded");
                     string usrIn = Console.ReadLine();
                     Encoder encoder = new Encoder();
-                    Console.WriteLine(encoder.Encode(usrIn));
-                    Console.WriteLine("Want to do another one?");
+                    
+                    string morseCode = encoder.Encode(usrIn);
+                    Console.WriteLine(morseCode);
+                    Console.WriteLine("Want to play it?");
                     usrIn = Console.ReadLine();
                     switch (usrIn)
                     {
                         case "yes":
-                            encoding = true;
+                            util.Play(morseCode);
                             break;
                         case "no":
 
@@ -100,7 +102,8 @@ namespace Morse_Code_Converter
                             }
                             else
                             {
-                                System.Environment.Exit(0);
+                            encoding = true;
+                            decoding = false;
                             }
                             break;
 
@@ -113,5 +116,5 @@ namespace Morse_Code_Converter
             }
 
         }
-    }
+    
 

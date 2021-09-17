@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-namespace Morse_Code_Converter
-{
+
     class Decoder
     {
         string[] Alphabet = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q" , "r", "s", "t", "u", "v", "w", "x", "y", "z" };
@@ -13,6 +12,7 @@ namespace Morse_Code_Converter
         
         const char Aprostophe = (char)39;
        
+
 
         public string decode(string morseCode)
         {
@@ -25,17 +25,21 @@ namespace Morse_Code_Converter
             foreach(char c in morseCode)
             {
 
-                if (c.ToString() == "/")
+                if (c == '/')
                 {
-                    decodedList.Add(" ");
+                    Console.WriteLine(tempStr);
+                    decodeList.Add(tempStr);
+                    tempStr = "";
+                    
+                    
                 }
-                else if (c.ToString() == " ")
+                else if (c == ' ')
                 {
                     if (morseCode.IndexOf(c) == morseCode.Length && c.ToString() != " ") tempStr += c;
                     decodeList.Add(tempStr);
                     Console.WriteLine(tempStr);
                     tempStr = "";
-                    
+                   
                     
                 }
                 
@@ -59,52 +63,52 @@ namespace Morse_Code_Converter
                     case ".-.-.-":
                         decodedList.Add(".");
                         
-                        break;
+                        continue;
                     case "--..--":
                         decodedList.Add(",");
-                        break;
+                        continue;
                     case "---...":
                         decodedList.Add(":");
-                        break;
+                        continue;
                     case "-.-.-.":
                         decodedList.Add(";");
-                        break;
+                        continue;
                     case "-....-":
                         decodedList.Add("-"); ;
-                        break;
+                        continue;
                     case "..--.-":
                         decodedList.Add("_");
-                        break;
+                        continue;
                     case ".----.":
                         decodedList.Add("'");
-                        break;
+                        continue;
                     case ".-.-.":
                         decodedList.Add("+");
-                        break;
+                        continue;
                     case "..--..":
                         decodedList.Add("?");
-                        break;
+                        continue;
                     case "-...-":
                         decodedList.Add("=");
-                        break;
+                        continue;
                     case "-.--.-":
                         decodedList.Add(")");
-                        break;
+                        continue;
                     case "-.--.":
                         decodedList.Add("(");
-                        break;
+                        continue;
                     case ".-...":
                         decodedList.Add("&");
-                        break;
+                        continue;
                     case "...-..-":
                         decodedList.Add("$");
-                        break;
+                        continue;
                     case "-.-.--":
                         decodedList.Add("!");
-                        break;
+                        continue;
                     case ".-..-.":
                         decodedList.Add(((char)34).ToString());
-                        break;        
+                        continue;        
                     default:
                         break;
                 }
@@ -112,13 +116,28 @@ namespace Morse_Code_Converter
                 try
                 {
                     int index = Array.IndexOf(MorseAlphabet, s);
+                    if(index!=-1)
+                    {
+                        decodedList.Add(Alphabet[index]);
 
-                    decodedList.Add(Alphabet[index]);
+                    } else
+                    {
+                        decodedList.Add(" ");
+                    }
                 }
                 catch(IndexOutOfRangeException)
                 {
-                    int index = Array.IndexOf(MorseNumbers, s);             
-                    decodedList.Add(index.ToString());
+                    int index = Array.IndexOf(MorseNumbers, s);
+                    if (index != -1)
+                    {
+                        decodedList.Add(" ");
+                    }
+                    else
+                    {
+                        decodedList.Add(index.ToString());
+
+                    }
+
                 }
 
                 //int tempPos;
@@ -158,4 +177,4 @@ namespace Morse_Code_Converter
 
 
 
-}
+
